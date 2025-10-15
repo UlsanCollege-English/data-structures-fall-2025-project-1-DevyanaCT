@@ -1,50 +1,57 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/JWEh_q2R)
+
 # Multi-Queue Round-Robin Café (Interactive CLI)
+This project mimics a café that uses a round-robin scheduling algorithm to process orders from several client queues, guaranteeing equity for all queues (e.g., Mobile, WalkIns, Faculty).
+Every queue has it's own capacity, and every order (task) is assigned a task ID that increases automatically, such as Mobile-001
 
+Features:
+Make several named queues with different capacities.
+
+Create multiple named queues with custom capacities.
+
+Enqueue valid drink orders in line (latte, tea, macchiato, Americano, and mocha).
+
+Give precise error messages when rejecting items that are invalid or full queues.
+
+Turn by turn, run the round-robin scheduler.
+
+For each event—create, enqueue, run, work, complete, refuse, and skip—print thorough logs.
+
+Task IDs are automatically generated for each queue (<queue_name>-NNN).
 ## How to run
+ On Windows:
+bash
+python src/cli.py
 
-(Insert directions to run your program here.)
+Enter commands interactively in the terminal, e.g.:
 
-
+CREATE Mobile 3
+ENQ Mobile latte
+RUN 2
+SKIP Mobile
+To end a session, enter a blank line and press Enter.
 ## How to run tests locally
-(Insert directions to run your tests here.)
-
+Make sure pytest is installed:pip install pytest
+Ensure your pytest.ini file is present in the root directory so that src/ is added to PYTHONPATH
+window:
+pytest -q
+or
+python -m pytest -q
+You should see all tests as passed
 
 ## Complexity Notes
 Briefly justify:
+Queue Design:
+Each queue (QueueRR) is implemented using a list with FIFO behavior. Supports O(1) enqueue/dequeue amortized. Round-robin scheduling is used to select queues in order.
 
-- Your queue design (e.g., circular buffer).
+Time Complexity:
 
-- Time complexity: enqueue, dequeue amortized O(1); run is O(#turns + total_minutes_worked).
+enqueue, dequeue: O(1) amortized
 
-- Space complexity: O(N) tasks + metadata.
+run: O(#turns + total_minutes_worked)
 
+Space Complexity:
 
-## **Delete this section before submission.**
-### Common pitfalls
-- Display should print after each RUN turn only.
+O(N) for storing tasks in all queues
 
-- Don’t advance time on empty or skipped queues.
+O(#queues) for metadata (counters, skip flags, queue map)
 
-- Enforce 1 ≤ steps ≤ #queues for RUN.
-
-- Auto task IDs per queue: <queue_id>-NNN (zero-padded).
-
-- Use exact messages:
-
-    - Sorry, we're at capacity.
-
-    - Sorry, we don't serve that.
-
-
-### Grading rubric (I will be using this to grade your submission)
-
-**__Correctness (50):__** RR behavior, logs, display-per-turn, auto task ids, menu handling, rejects.
-
-**__Complexity notes (15):__** correct, concise, justified.
-
-**__Student tests (15):__** ≥4 targeted, deterministic tests incl. steps validation.
-
-**__Code quality (10):__** structure, type hints on public surfaces, docstrings, PEP 8.
-
-**__Docs & UX (10):__** README completeness; exact messages; clear CLI.
